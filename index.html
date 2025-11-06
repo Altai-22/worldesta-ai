@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worldesta.ai - أداة النشر التلقائي</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,19 +14,19 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #e0e0e0;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
         }
 
-        /* Password Protection Overlay */
+        /* Password Protection */
         #passwordOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -34,19 +34,18 @@
         }
 
         .password-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(139, 92, 246, 0.3);
-            border-radius: 20px;
+            background: #1a1a1a;
+            border: 2px solid #dc2626;
+            border-radius: 15px;
             padding: 50px;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
             max-width: 400px;
             width: 90%;
         }
 
         .password-box h2 {
-            color: #8b5cf6;
+            color: #dc2626;
             margin-bottom: 30px;
             font-size: 28px;
         }
@@ -54,9 +53,9 @@
         .password-box input {
             width: 100%;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(139, 92, 246, 0.3);
-            border-radius: 10px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 8px;
             color: #fff;
             font-size: 16px;
             margin-bottom: 20px;
@@ -65,16 +64,16 @@
         }
 
         .password-box input:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+            border-color: #dc2626;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.3);
         }
 
         .password-box button {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #dc2626;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             color: #fff;
             font-size: 16px;
             font-weight: bold;
@@ -83,12 +82,12 @@
         }
 
         .password-box button:hover {
+            background: #b91c1c;
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
         }
 
         .error-message {
-            color: #ff6b6b;
+            color: #dc2626;
             margin-top: 10px;
             display: none;
         }
@@ -98,7 +97,6 @@
             margin-bottom: 20px;
         }
 
-        /* Main App Container */
         #mainApp {
             display: none;
         }
@@ -110,12 +108,11 @@
         }
 
         header {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
+            background: #1a1a1a;
+            border-radius: 12px;
             padding: 30px;
             margin-bottom: 30px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid #333;
         }
 
         .header-top {
@@ -132,9 +129,7 @@
         }
 
         .logo h1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #dc2626;
             font-size: 32px;
         }
 
@@ -158,31 +153,32 @@
 
         .tab {
             padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid transparent;
-            border-radius: 10px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            color: #ffffff;
         }
 
         .tab:hover {
-            background: rgba(139, 92, 246, 0.1);
-            border-color: rgba(139, 92, 246, 0.3);
+            border-color: #dc2626;
+            background: #1a1a1a;
         }
 
         .tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #8b5cf6;
+            background: #dc2626;
+            border-color: #dc2626;
+            color: #ffffff;
         }
 
         .content-section {
             display: none;
-            background: rgba(26, 26, 46, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
+            background: #1a1a1a;
+            border-radius: 12px;
             padding: 30px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid #333;
         }
 
         .content-section.active {
@@ -191,16 +187,22 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-title {
-            color: #8b5cf6;
+            color: #dc2626;
             font-size: 24px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            border-bottom: 2px solid #333;
         }
 
         .form-group {
@@ -219,10 +221,10 @@
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: #0a0a0a;
+            border: 1px solid #333;
             border-radius: 8px;
-            color: #e0e0e0;
+            color: #ffffff;
             font-size: 14px;
             outline: none;
             transition: all 0.3s;
@@ -231,13 +233,12 @@
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+            border-color: #dc2626;
         }
 
         .btn {
             padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #dc2626;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -248,12 +249,16 @@
         }
 
         .btn:hover {
+            background: #b91c1c;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #444;
         }
 
         .stats-grid {
@@ -264,10 +269,10 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
             padding: 25px;
             border-radius: 12px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid #333;
         }
 
         .stat-card h3 {
@@ -279,16 +284,14 @@
         .stat-card .value {
             font-size: 32px;
             font-weight: bold;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #dc2626;
         }
 
         .chart-container {
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
             padding: 25px;
             border-radius: 12px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid #333;
             margin-bottom: 20px;
         }
 
@@ -298,25 +301,13 @@
         }
 
         .trend-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
             padding: 15px;
             border-radius: 8px;
-            border-left: 3px solid #8b5cf6;
+            border-left: 3px solid #dc2626;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .trend-item .topic {
-            font-weight: 500;
-        }
-
-        .trend-item .score {
-            background: rgba(139, 92, 246, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #8b5cf6;
         }
 
         .video-queue {
@@ -325,45 +316,10 @@
         }
 
         .video-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
             padding: 20px;
             border-radius: 12px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .video-info h4 {
-            color: #e0e0e0;
-            margin-bottom: 8px;
-        }
-
-        .video-info p {
-            color: #a0a0a0;
-            font-size: 14px;
-        }
-
-        .status {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status.pending {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-        }
-
-        .status.processing {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-        }
-
-        .status.published {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
+            border: 1px solid #333;
         }
 
         .oauth-section {
@@ -372,14 +328,14 @@
         }
 
         .oauth-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
             padding: 25px;
             border-radius: 12px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid #333;
         }
 
         .oauth-card h3 {
-            color: #8b5cf6;
+            color: #dc2626;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -389,9 +345,6 @@
         .connected {
             color: #22c55e;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
         .disconnected {
@@ -402,14 +355,13 @@
         footer {
             text-align: center;
             padding: 20px;
-            color: #a0a0a0;
+            color: #666;
             font-size: 14px;
             margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <!-- Password Protection Overlay -->
     <div id="passwordOverlay">
         <div class="password-box">
             <div class="lock-icon">🔒</div>
@@ -421,7 +373,6 @@
         </div>
     </div>
 
-    <!-- Main Application -->
     <div id="mainApp">
         <div class="container">
             <header>
@@ -434,94 +385,68 @@
                         <span>HTTPS محمي</span>
                     </div>
                 </div>
-
                 <div class="tabs">
                     <div class="tab active" onclick="switchTab('dashboard')">📊 لوحة التحكم</div>
                     <div class="tab" onclick="switchTab('scheduler')">⏰ الجدولة</div>
                     <div class="tab" onclick="switchTab('review')">👁️ المراجعة</div>
                     <div class="tab" onclick="switchTab('live-chart')">📈 المخطط الحي</div>
-                    <div class="tab" onclick="switchTab('
-                      queue')">📋 قائمة الانتظار</div>
+                    <div class="tab" onclick="switchTab('queue')">📋 قائمة الانتظار</div>
                     <div class="tab" onclick="switchTab('oauth')">🔗 إعدادات OAuth</div>
                 </div>
             </header>
 
-            <!-- Dashboard Section -->
+            <!-- Dashboard -->
             <div id="dashboard" class="content-section active">
                 <h2 class="section-title">📊 لوحة التحكم</h2>
-                
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h3>إجمالي المقاطع المنشورة</h3>
-                        <div class="value">247</div>
+                        <div class="value">0</div>
                     </div>
                     <div class="stat-card">
                         <h3>المقاطع هذا الأسبوع</h3>
-                        <div class="value">12</div>
+                        <div class="value">0</div>
                     </div>
                     <div class="stat-card">
                         <h3>في قائمة الانتظار</h3>
-                        <div class="value">5</div>
+                        <div class="value">0</div>
                     </div>
                     <div class="stat-card">
                         <h3>إجمالي المشاهدات</h3>
-                        <div class="value">1.2M</div>
+                        <div class="value">0</div>
                     </div>
                 </div>
-
                 <div class="chart-container">
-                    <h3 style="color: #8b5cf6; margin-bottom: 20px;">📈 أداء المقاطع - آخر 7 أيام</h3>
+                    <h3 style="color: #dc2626; margin-bottom: 20px;">📈 أداء المقاطع - آخر 7 أيام</h3>
                     <canvas id="performanceChart" height="80"></canvas>
                 </div>
-
-                <h3 style="color: #8b5cf6; margin: 30px 0 15px;">🔥 الموضوعات الرائجة من Google Trends</h3>
+                <h3 style="color: #dc2626; margin: 30px 0 15px;">🔥 الموضوعات الرائجة من Google Trends</h3>
                 <div class="trending-topics">
-                    <div class="trend-item">
-                        <span class="topic">🤖 تطبيقات الذكاء الاصطناعي</span>
-                        <span class="score">95/100</span>
-                    </div>
-                    <div class="trend-item">
-                        <span class="topic">⚽ كأس العالم 2026</span>
-                        <span class="score">88/100</span>
-                    </div>
-                    <div class="trend-item">
-                        <span class="topic">💡 تكنولوجيا المستقبل</span>
-                        <span class="score">82/100</span>
-                    </div>
-                    <div class="trend-item">
-                        <span class="topic">🎮 ألعاب الفيديو الجديدة</span>
-                        <span class="score">76/100</span>
-                    </div>
-                    <div class="trend-item">
-                        <span class="topic">🌍 السفر والسياحة</span>
-                        <span class="score">71/100</span>
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        لا توجد بيانات حالياً. قم بربط حسابك في قسم إعدادات OAuth
                     </div>
                 </div>
             </div>
 
-            <!-- Scheduler Section -->
+            <!-- Scheduler -->
             <div id="scheduler" class="content-section">
                 <h2 class="section-title">⏰ جدولة المقاطع</h2>
-                
                 <div class="form-group">
-                    <label>📝 الموضوع المخصص (Custom Topic)</label>
-                    <input type="text" placeholder="مثال: تعليم البرمجة للمبتدئين" id="customTopic">
+                    <label>📝 الموضوع المخصص</label>
+                    <input type="text" placeholder="مثال: تعليم البرمجة" id="customTopic">
                 </div>
-
                 <div class="form-group">
-                    <label>🎯 النظام الأساسي</label>
+                    <label>🎯 المنصة</label>
                     <select id="platform">
                         <option value="both">YouTube Shorts + TikTok</option>
                         <option value="youtube">YouTube Shorts فقط</option>
                         <option value="tiktok">TikTok فقط</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>📅 تاريخ ووقت النشر</label>
                     <input type="datetime-local" id="publishDate">
                 </div>
-
                 <div class="form-group">
                     <label>🔄 التكرار</label>
                     <select id="frequency">
@@ -530,7 +455,6 @@
                         <option value="weekly">أسبوعياً</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>⏱️ مدة الفيديو</label>
                     <select id="duration">
@@ -539,131 +463,49 @@
                         <option value="60">60 ثانية</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>📄 الوصف</label>
                     <textarea rows="4" placeholder="وصف الفيديو والهاشتاجات..." id="description"></textarea>
                 </div>
-
                 <button class="btn" onclick="scheduleVideo()">✅ جدولة الفيديو</button>
             </div>
 
-            <!-- Review Section -->
+            <!-- Review -->
             <div id="review" class="content-section">
                 <h2 class="section-title">👁️ مراجعة المقاطع قبل النشر</h2>
-                
-                <div class="video-queue">
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>🤖 دليل الذكاء الاصطناعي للمبتدئين</h4>
-                            <p>⏰ موعد النشر: 2025-11-07 في 10:00 صباحاً</p>
-                            <p>📱 المنصة: YouTube Shorts + TikTok</p>
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn" onclick="approveVideo(1)">✅ موافقة</button>
-                            <button class="btn btn-secondary" onclick="editVideo(1)">✏️ تعديل</button>
-                            <button class="btn btn-secondary" onclick="deleteVideo(1)">🗑️ حذف</button>
-                        </div>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>⚽ أفضل أهداف كأس العالم</h4>
-                            <p>⏰ موعد النشر: 2025-11-07 في 14:00</p>
-                            <p>📱 المنصة: TikTok فقط</p>
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn" onclick="approveVideo(2)">✅ موافقة</button>
-                            <button class="btn btn-secondary" onclick="editVideo(2)">✏️ تعديل</button>
-                            <button class="btn btn-secondary" onclick="deleteVideo(2)">🗑️ حذف</button>
-                        </div>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>💡 اختراعات ستغير العالم</h4>
-                            <p>⏰ موعد النشر: 2025-11-08 في 09:00 صباحاً</p>
-                            <p>📱 المنصة: YouTube Shorts فقط</p>
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn" onclick="approveVideo(3)">✅ موافقة</button>
-                            <button class="btn btn-secondary" onclick="editVideo(3)">✏️ تعديل</button>
-                            <button class="btn btn-secondary" onclick="deleteVideo(3)">🗑️ حذف</button>
-                        </div>
-                    </div>
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    لا توجد مقاطع للمراجعة حالياً
                 </div>
             </div>
 
-            <!-- Live Chart Section -->
+            <!-- Live Chart -->
             <div id="live-chart" class="content-section">
                 <h2 class="section-title">📈 المخطط الحي - العملية الكاملة</h2>
-                
                 <div class="chart-container">
                     <canvas id="liveProcessChart" height="100"></canvas>
                 </div>
-
                 <div style="margin-top: 30px;">
-                    <h3 style="color: #8b5cf6; margin-bottom: 15px;">⚡ الحالة الحالية</h3>
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <p style="color: #22c55e; font-size: 18px; margin-bottom: 10px;">✅ النظام يعمل بشكل طبيعي</p>
-                        <p style="color: #a0a0a0;">📊 آخر تحديث: 2025-11-06 15:00</p>
-                        <p style="color: #a0a0a0;">🔄 المقاطع قيد المعالجة: 2</p>
-                        <p style="color: #a0a0a0;">✅ المقاطع الجاهزة للنشر: 3</p>
+                    <h3 style="color: #dc2626; margin-bottom: 15px;">⚡ الحالة الحالية</h3>
+                    <div style="background: #0a0a0a; padding: 20px; border-radius: 12px; border: 1px solid #333;">
+                        <p style="color: #22c55e; font-size: 18px; margin-bottom: 10px;">✅ النظام جاهز للعمل</p>
+                        <p style="color: #a0a0a0;">📊 آخر تحديث: 2025-11-06 16:00</p>
+                        <p style="color: #a0a0a0;">🔄 المقاطع قيد المعالجة: 0</p>
+                        <p style="color: #a0a0a0;">✅ المقاطع الجاهزة للنشر: 0</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Queue Section -->
+            <!-- Queue -->
             <div id="queue" class="content-section">
                 <h2 class="section-title">📋 قائمة الانتظار</h2>
-                
-                <div class="video-queue">
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>🤖 دليل الذكاء الاصطناعي للمبتدئين</h4>
-                            <p>📅 2025-11-07 | 10:00 صباحاً</p>
-                        </div>
-                        <span class="status pending">⏳ في الانتظار</span>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>⚽ أفضل أهداف كأس العالم</h4>
-                            <p>📅 2025-11-07 | 14:00</p>
-                        </div>
-                        <span class="status processing">🔄 قيد المعالجة</span>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>💡 اختراعات ستغير العالم</h4>
-                            <p>📅 2025-11-08 | 09:00 صباحاً</p>
-                        </div>
-                        <span class="status pending">⏳ في الانتظار</span>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>🎮 ألعاب 2026 الأكثر انتظاراً</h4>
-                            <p>📅 2025-11-08 | 16:00</p>
-                        </div>
-                        <span class="status pending">⏳ في الانتظار</span>
-                    </div>
-
-                    <div class="video-item">
-                        <div class="video-info">
-                            <h4>🌍 أجمل الوجهات السياحية</h4>
-                            <p>📅 2025-11-09 | 12:00</p>
-                        </div>
-                        <span class="status published">✅ تم النشر</span>
-                    </div>
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    لا توجد مقاطع في قائمة الانتظار
                 </div>
             </div>
 
-            <!-- OAuth Settings Section -->
+            <!-- OAuth Settings -->
             <div id="oauth" class="content-section">
                 <h2 class="section-title">🔗 إعدادات OAuth الرسمية</h2>
-                
                 <div class="oauth-section">
                     <div class="oauth-card">
                         <h3>
@@ -673,15 +515,12 @@
                         <p style="color: #a0a0a0; margin-bottom: 15px;">
                             ربط حسابك في YouTube عبر Google OAuth 2.0 الرسمي
                         </p>
-                        <div class="connected">
-                            <span>✅</span>
-                            <span>متصل: your.email@gmail.com</span>
+                        <div class="disconnected">
+                            <span>❌</span>
+                            <span>غير متصل</span>
                         </div>
                         <button class="btn" style="margin-top: 15px;" onclick="connectYouTube()">
-                            🔄 إعادة الربط
-                        </button>
-                        <button class="btn btn-secondary" style="margin-top: 15px; margin-right: 10px;" onclick="disconnectYouTube()">
-                            ❌ قطع الاتصال
+                            🔗 ربط حساب YouTube
                         </button>
                     </div>
 
@@ -693,15 +532,12 @@
                         <p style="color: #a0a0a0; margin-bottom: 15px;">
                             ربط حسابك في TikTok عبر OAuth 2.0 الرسمي
                         </p>
-                        <div class="connected">
-                            <span>✅</span>
-                            <span>متصل: @yourusername</span>
+                        <div class="disconnected">
+                            <span>❌</span>
+                            <span>غير متصل</span>
                         </div>
                         <button class="btn" style="margin-top: 15px;" onclick="connectTikTok()">
-                            🔄 إعادة الربط
-                        </button>
-                        <button class="btn btn-secondary" style="margin-top: 15px; margin-right: 10px;" onclick="disconnectTikTok()">
-                            ❌ قطع الاتصال
+                            🔗 ربط حساب TikTok
                         </button>
                     </div>
 
@@ -715,8 +551,7 @@
                         </p>
                         <div class="connected">
                             <span>✅</span>
-                            <span>نشط - آخر تحديث: 2025-11
--06</span>
+                            <span>نشط - متاح للاستخدام</span>
                         </div>
                         <button class="btn" style="margin-top: 15px;" onclick="refreshTrends()">
                             🔄 تحديث البيانات
@@ -743,6 +578,8 @@
     <script>
         // Password Protection
         const CORRECT_PASSWORD = 'worldesta2025';
+        let performanceChartInstance = null;
+        let liveChartInstance = null;
 
         function checkPassword() {
             const input = document.getElementById('passwordInput').value;
@@ -751,7 +588,7 @@
             if (input === CORRECT_PASSWORD) {
                 document.getElementById('passwordOverlay').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
-                initCharts();
+                setTimeout(initCharts, 100);
             } else {
                 errorMsg.style.display = 'block';
                 document.getElementById('passwordInput').value = '';
@@ -759,7 +596,6 @@
             }
         }
 
-        // Allow Enter key to submit password
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -770,180 +606,173 @@
 
         // Tab Switching
         function switchTab(tabName) {
-            // Hide all sections
             const sections = document.querySelectorAll('.content-section');
             sections.forEach(section => section.classList.remove('active'));
             
-            // Remove active class from all tabs
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             
-            // Show selected section
             document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
             event.target.classList.add('active');
         }
 
-        // Initialize Charts
+        // Initialize Charts - محسّن لتقليل استهلاك الرامات
         function initCharts() {
-            // Performance Chart
-            const ctx1 = document.getElementById('performanceChart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
-                    datasets: [{
-                        label: 'المشاهدات',
-                        data: [12500, 19300, 15200, 21400, 18900, 25600, 22100],
-                        borderColor: '#8b5cf6',
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e0e0e0'
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(139, 92, 246, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(139, 92, 246, 0.1)' }
-                        }
-                    }
-                }
-            });
+            // Destroy old charts if exist
+            if (performanceChartInstance) {
+                performanceChartInstance.destroy();
+            }
+            if (liveChartInstance) {
+                liveChartInstance.destroy();
+            }
 
-            // Live Process Chart
-            const ctx2 = document.getElementById('liveProcessChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['البحث عن الموضوع', 'إنشاء المحتوى', 'المعالجة', 'المراجعة', 'الجدولة', 'النشر'],
-                    datasets: [{
-                        label: 'الوقت (دقائق)',
-                        data: [5, 15, 20, 10, 3, 2],
-                        backgroundColor: [
-                            'rgba(139, 92, 246, 0.8)',
-                            'rgba(102, 126, 234, 0.8)',
-                            'rgba(118, 75, 162, 0.8)',
-                            'rgba(59, 130, 246, 0.8)',
-                            'rgba(34, 197, 94, 0.8)',
-                            'rgba(251, 191, 36, 0.8)'
-                        ],
-                        borderColor: [
-                            '#8b5cf6',
-                            '#667eea',
-                            '#764ba2',
-                            '#3b82f6',
-                            '#22c55e',
-                            '#fbbf24'
-                        ],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#e0e0e0'
+            // Performance Chart - بيانات فارغة
+            const ctx1 = document.getElementById('performanceChart');
+            if (ctx1) {
+                performanceChartInstance = new Chart(ctx1.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                        datasets: [{
+                            label: 'المشاهدات',
+                            data: [0, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            duration: 300
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
                             }
                         }
+                    }
+                });
+            }
+
+            // Live Process Chart - مؤشرات صغيرة
+            const ctx2 = document.getElementById('liveProcessChart');
+            if (ctx2) {
+                liveChartInstance = new Chart(ctx2.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['البحث', 'الإنشاء', 'المعالجة', 'المراجعة', 'الجدولة', 'النشر'],
+                        datasets: [{
+                            label: 'الوقت (دقائق)',
+                            data: [0, 0, 0, 0, 0, 0],
+                            backgroundColor: [
+                                'rgba(220, 38, 38, 0.8)',
+                                'rgba(220, 38, 38, 0.7)',
+                                'rgba(220, 38, 38, 0.6)',
+                                'rgba(220, 38, 38, 0.5)',
+                                'rgba(220, 38, 38, 0.4)',
+                                'rgba(220, 38, 38, 0.3)'
+                            ],
+                            borderColor: '#dc2626',
+                            borderWidth: 1
+                        }]
                     },
-                    scales: {
-                        y: {
-                            ticks: { color: '#a0a0a0' },
-                            grid: { color: 'rgba(139, 92, 246, 0.1)' }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            duration: 300
                         },
-                        x: {
-                            ticks: { 
-                                color: '#a0a0a0',
-                                font: { size: 11 }
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
                             },
-                            grid: { color: 'rgba(139, 92, 246, 0.1)' }
+                            x: {
+                                ticks: { 
+                                    color: '#a0a0a0',
+                                    font: { size: 11 }
+                                },
+                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
-        // Schedule Video Function
+        // Schedule Video
         function scheduleVideo() {
             const topic = document.getElementById('customTopic').value;
             const platform = document.getElementById('platform').value;
             const date = document.getElementById('publishDate').value;
-            const frequency = document.getElementById('frequency').value;
-            const duration = document.getElementById('duration').value;
-            const description = document.getElementById('description').value;
 
             if (!topic || !date) {
                 alert('⚠️ يرجى ملء جميع الحقول المطلوبة');
                 return;
             }
 
-            alert(`✅ تم جدولة الفيديو بنجاح!\n\n📝 الموضوع: ${topic}\n📱 المنصة: ${platform}\n📅 التاريخ: ${date}\n🔄 التكرار: ${frequency}\n⏱️ المدة: ${duration} ثانية`);
+            alert(`✅ تم جدولة الفيديو بنجاح!\n\n📝 الموضوع: ${topic}\n📱 المنصة: ${platform}\n📅 التاريخ: ${date}`);
             
-            // Clear form
             document.getElementById('customTopic').value = '';
             document.getElementById('publishDate').value = '';
             document.getElementById('description').value = '';
         }
 
-        // OAuth Functions
+        // OAuth Functions - روابط حقيقية
         function connectYouTube() {
-            alert('🔄 جاري توجيهك إلى صفحة Google OAuth الرسمية...\n\nملاحظة: في النسخة الفعلية، سيتم توجيهك إلى:\nhttps://accounts.google.com/o/oauth2/v2/auth');
-            // window.open('https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=https://www.googleapis.com/auth/youtube.upload', '_blank');
-        }
-
-        function disconnectYouTube() {
-            if (confirm('هل أنت متأكد من قطع الاتصال مع YouTube؟')) {
-                alert('✅ تم قطع الاتصال بنجاح');
-            }
+            const clientId = 'YOUR_YOUTUBE_CLIENT_ID';
+            const redirectUri = encodeURIComponent(window.location.origin);
+            const scope = encodeURIComponent('https://www.googleapis.com/auth/youtube.upload');
+            
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
+            
+            alert('🔄 سيتم توجيهك إلى صفحة Google الرسمية لربط حسابك.\n\n⚠️ ملاحظة: يجب عليك أولاً إنشاء مشروع في Google Cloud Console والحصول على Client ID.\n\nالخطوات:\n1. اذهب إلى console.cloud.google.com\n2. أنشئ مشروع جديد\n3. فعّل YouTube Data API v3\n4. أنشئ OAuth 2
+.0 credentials\n5. ضع Client ID في الكود');
+            
+            // Uncomment when you have your Client ID:
+            // window.open(authUrl, '_blank');
         }
 
         function connectTikTok() {
-            alert('🔄 جاري توجيهك إلى صفحة TikTok OAuth الرسمية...\n\nملاحظة: في النسخة الفعلية، سيتم توجيهك إلى:\nhttps://www.tiktok.com/auth/authorize/');
-            // window.open('https://www.tiktok.com/auth/authorize/?client_key=YOUR_CLIENT_KEY&response_type=code&scope=user.info.basic,video.upload&redirect_uri=YOUR_REDIRECT_URI', '_blank');
-        }
-
-        function disconnectTikTok() {
-            if (confirm('هل أنت متأكد من قطع الاتصال مع TikTok؟')) {
-                alert('✅ تم قطع الاتصال بنجاح');
-            }
+            const clientKey = 'YOUR_TIKTOK_CLIENT_KEY';
+            const redirectUri = encodeURIComponent(window.location.origin);
+            const scope = 'user.info.basic,video.upload';
+            
+            const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`;
+            
+            alert('🔄 سيتم توجيهك إلى صفحة TikTok الرسمية لربط حسابك.\n\n⚠️ ملاحظة: يجب عليك أولاً التسجيل في TikTok for Developers والحصول على Client Key.\n\nالخطوات:\n1. اذهب إلى developers.tiktok.com\n2. سجّل تطبيقك\n3. احصل على Client Key\n4. ضعه في الكود');
+            
+            // Uncomment when you have your Client Key:
+            // window.open(authUrl, '_blank');
         }
 
         function refreshTrends() {
-            alert('🔄 جاري تحديث بيانات Google Trends...\n\n✅ تم التحديث بنجاح!');
-        }
-
-        // Video Review Functions
-        function approveVideo(id) {
-            alert(`✅ تمت الموافقة على الفيديو #${id}\n\nسيتم نشره في الموعد المحدد.`);
-        }
-
-        function editVideo(id) {
-            alert(`✏️ تحرير الفيديو #${id}\n\nسيتم فتح محرر الفيديو...`);
-        }
-
-        function deleteVideo(id) {
-            if (confirm(`هل أنت متأكد من حذف الفيديو #${id}؟`)) {
-                alert(`🗑️ تم حذف الفيديو #${id} بنجاح`);
-            }
+            alert('🔄 جاري تحديث بيانات Google Trends...\n\n✅ تم التحديث بنجاح!\n\nملاحظة: لعرض البيانات الحقيقية، يجب ربط Google Trends API.');
         }
     </script>
 </body>
 </html>
-
