@@ -632,24 +632,22 @@
                 performanceChartInstance = new Chart(ctx1.getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                                        labels: ['الأحد', 'الاثنين', 'الثلاثاء'],  // تقليل البيانات
                         datasets: [{
                             label: 'المشاهدات',
-                            data: [0, 0, 0, 0, 0, 0, 0],
+                            data: [0, 0, 0],
                             borderColor: '#dc2626',
                             backgroundColor: 'rgba(220, 38, 38, 0.1)',
                             tension: 0.4,
-                            fill: true,
-                            pointRadius: 3,
+                            fill: false,
+                            pointRadius:23,
                             pointHoverRadius: 5
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        animation: {
-                            duration: 300
-                        },
+                        animation: false,
                         plugins: {
                             legend: {
                                                 animation: false,  // إيقاف الرسوم المتحركة لتقليل استهلاك الرامات
