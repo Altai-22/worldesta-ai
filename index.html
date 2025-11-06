@@ -1,771 +1,288 @@
 <!DOCTYPE html>
-<!-- Cache-Buster: v3.0 -->
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Worldesta.ai - أداة النشر التلقائي</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <title>Worldesta.ai</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-        }
-
-        /* Password Protection */
-        #passwordOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
         }
-
-        .password-box {
+        .login-container {
             background: #1a1a1a;
-            border: 2px solid #dc2626;
+            border: 3px solid #dc2626;
             border-radius: 15px;
-            padding: 50px;
+            padding: 60px 40px;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
-            max-width: 400px;
             width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
         }
-
-        .password-box h2 {
-            color: #dc2626;
+        .lock-icon {
+            font-size: 60px;
             margin-bottom: 30px;
-            font-size: 28px;
         }
-
-        .password-box input {
+        h1 {
+            color: #dc2626;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        input {
             width: 100%;
             padding: 15px;
+            margin-bottom: 20px;
             background: #0a0a0a;
             border: 2px solid #333;
             border-radius: 8px;
             color: #fff;
             font-size: 16px;
-            margin-bottom: 20px;
             outline: none;
-            transition: all 0.3s;
         }
-
-        .password-box input:focus {
+        input:focus {
             border-color: #dc2626;
             box-shadow: 0 0 10px rgba(220, 38, 38, 0.3);
         }
-
-        .password-box button {
+        button {
             width: 100%;
             padding: 15px;
             background: #dc2626;
             border: none;
             border-radius: 8px;
             color: #fff;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        .password-box button:hover {
+        button:hover {
             background: #b91c1c;
             transform: translateY(-2px);
         }
-
-        .error-message {
+        button:active {
+            transform: translateY(0);
+        }
+        .error {
             color: #dc2626;
+            font-size: 14px;
             margin-top: 10px;
             display: none;
         }
-
-        .lock-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        #mainApp {
+        #dashboard {
             display: none;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            padding: 40px;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo h1 {
-            color: #dc2626;
-            font-size: 32px;
-        }
-
-        .https-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid #22c55e;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #22c55e;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            background: #0a0a0a;
-            border: 2px solid #333;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .tab:hover {
-            border-color: #dc2626;
-            background: #1a1a1a;
-        }
-
-        .tab.active {
-            background: #dc2626;
-            border-color: #dc2626;
-            color: #ffffff;
-        }
-
-        .content-section {
-            display: none;
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 30px;
-            border: 1px solid #333;
-        }
-
-        .content-section.active {
+        #dashboard.show {
             display: block;
-            animation: fadeIn 0.3s;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
         }
-
-        .section-title {
+        .header h1 {
             color: #dc2626;
+            font-size: 40px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #dc2626;
+        }
+        .stat-label {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        .section {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #dc2626;
+            margin-bottom: 20px;
             font-size: 24px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #333;
         }
-
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            text-align: right;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #a0a0a0;
-            font-weight: 500;
+            color: #aaa;
+            font-size: 14px;
         }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             background: #0a0a0a;
             border: 1px solid #333;
             border-radius: 8px;
-            color: #ffffff;
+            color: #fff;
             font-size: 14px;
-            outline: none;
-            transition: all 0.3s;
         }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #dc2626;
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
-
-        .btn {
-            padding: 12px 30px;
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
             background: #dc2626;
             border: none;
             border-radius: 8px;
             color: #fff;
-            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .btn:hover {
-            background: #b91c1c;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #444;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #0a0a0a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-
-        .stat-card h3 {
-            color: #a0a0a0;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .stat-card .value {
-            font-size: 32px;
             font-weight: bold;
-            color: #dc2626;
         }
-
-        .chart-container {
-            background: #0a0a0a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            margin-bottom: 20px;
+        .btn-primary:hover {
+            background: #b91c1c;
         }
-
-        .trending-topics {
-            display: grid;
-            gap: 15px;
-        }
-
-        .trend-item {
-            background: #0a0a0a;
-            padding: 15px;
+        .btn-logout {
+            padding: 12px 30px;
+            background: #333;
+            border: none;
             border-radius: 8px;
-            border-left: 3px solid #dc2626;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
         }
-
-        .video-queue {
-            display: grid;
-            gap: 15px;
-        }
-
-        .video-item {
-            background: #0a0a0a;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-
-        .oauth-section {
-            display: grid;
-            gap: 20px;
-        }
-
-        .oauth-card {
-            background: #0a0a0a;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-
-        .oauth-card h3 {
-            color: #dc2626;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .connected {
-            color: #22c55e;
-            font-size: 14px;
-        }
-
-        .disconnected {
-            color: #ef4444;
-            font-size: 14px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
-            margin-top: 40px;
+        .btn-logout:hover {
+            background: #444;
         }
     </style>
 </head>
 <body>
-    <div id="passwordOverlay">
-        <div class="password-box">
+    <div id="loginPage">
+        <div class="login-container">
             <div class="lock-icon">🔒</div>
-            <h2>Worldesta.ai</h2>
-            <p style="color: #a0a0a0; margin-bottom: 20px;">أدخل كلمة المرور للوصول</p>
-            <input type="password" id="passwordInput" placeholder="كلمة المرور" autocomplete="off">
-            <button onclick="checkPassword()">دخول</button>
-            <p class="error-message" id="errorMessage">❌ كلمة المرور غير صحيحة</p>
+            <h1>Worldesta.ai</h1>
+            <p class="subtitle">أدخل كلمة المرور للوصول</p>
+            <input type="password" id="pwd" placeholder="كلمة المرور">
+            <button onclick="checkLogin()">دخول</button>
+            <div class="error" id="errMsg">❌ كلمة المرور غير صحيحة</div>
         </div>
     </div>
-
-    <div id="mainApp">
-        <div class="container">
-            <header>
-                <div class="header-top">
-                    <div class="logo">
-                        <h1>🌍 Worldesta.ai</h1>
-                    </div>
-                    <div class="https-badge">
-                        <span>🔒</span>
-                        <span>HTTPS محمي</span>
-                    </div>
-                </div>
-                <div class="tabs">
-                    <div class="tab active" onclick="switchTab('dashboard')">📊 لوحة التحكم</div>
-                    <div class="tab" onclick="switchTab('scheduler')">⏰ الجدولة</div>
-                    <div class="tab" onclick="switchTab('review')">👁️ المراجعة</div>
-                    <div class="tab" onclick="switchTab('live-chart')">📈 المخطط الحي</div>
-                    <div class="tab" onclick="switchTab('queue')">📋 قائمة الانتظار</div>
-                    <div class="tab" onclick="switchTab('oauth')">🔗 إعدادات OAuth</div>
-                </div>
-            </header>
-
-            <!-- Dashboard -->
-            <div id="dashboard" class="content-section active">
-                <h2 class="section-title">📊 لوحة التحكم</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>إجمالي المقاطع المنشورة</h3>
-                        <div class="value">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>المقاطع هذا الأسبوع</h3>
-                        <div class="value">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>في قائمة الانتظار</h3>
-                        <div class="value">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>إجمالي المشاهدات</h3>
-                        <div class="value">0</div>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <h3 style="color: #dc2626; margin-bottom: 20px;">📈 أداء المقاطع - آخر 7 أيام</h3>
-                    <canvas id="performanceChart" height="80"></canvas>
-                </div>
-                <h3 style="color: #dc2626; margin: 30px 0 15px;">🔥 الموضوعات الرائجة من Google Trends</h3>
-                <div class="trending-topics">
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        لا توجد بيانات حالياً. قم بربط حسابك في قسم إعدادات OAuth
-                    </div>
-                </div>
+    
+    <div id="dashboard">
+        <div style="text-align: right; margin-bottom: 30px;">
+            <h1 style="color: #dc2626; margin-bottom: 20px;">🌍 Worldesta.ai</h1>
+            <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">إجمالي المقاطع المنشورة</div>
+                <div class="stat-value">0</div>
             </div>
-
-            <!-- Scheduler -->
-            <div id="scheduler" class="content-section">
-                <h2 class="section-title">⏰ جدولة المقاطع</h2>
-                <div class="form-group">
-                    <label>📝 الموضوع المخصص</label>
-                    <input type="text" placeholder="مثال: تعليم البرمجة" id="customTopic">
-                </div>
-                <div class="form-group">
-                    <label>🎯 المنصة</label>
-                    <select id="platform">
-                        <option value="both">YouTube Shorts + TikTok</option>
-                        <option value="youtube">YouTube Shorts فقط</option>
-                        <option value="tiktok">TikTok فقط</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>📅 تاريخ ووقت النشر</label>
-                    <input type="datetime-local" id="publishDate">
-                </div>
-                <div class="form-group">
-                    <label>🔄 التكرار</label>
-                    <select id="frequency">
-                        <option value="once">مرة واحدة</option>
-                        <option value="daily">يومياً</option>
-                        <option value="weekly">أسبوعياً</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>⏱️ مدة الفيديو</label>
-                    <select id="duration">
-                        <option value="15">15 ثانية</option>
-                        <option value="30">30 ثانية</option>
-                        <option value="60">60 ثانية</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>📄 الوصف</label>
-                    <textarea rows="4" placeholder="وصف الفيديو والهاشتاجات..." id="description"></textarea>
-                </div>
-                <button class="btn" onclick="scheduleVideo()">✅ جدولة الفيديو</button>
+            <div class="stat-card">
+                <div class="stat-label">المقاطع هذا الأسبوع</div>
+                <div class="stat-value">0</div>
             </div>
-
-            <!-- Review -->
-            <div id="review" class="content-section">
-                <h2 class="section-title">👁️ مراجعة المقاطع قبل النشر</h2>
-                <div style="text-align: center; padding: 40px; color: #666;">
-                    لا توجد مقاطع للمراجعة حالياً
-                </div>
+            <div class="stat-card">
+                <div class="stat-label">في قائمة الانتظار</div>
+                <div class="stat-value">0</div>
             </div>
-
-            <!-- Live Chart -->
-            <div id="live-chart" class="content-section">
-                <h2 class="section-title">📈 المخطط الحي - العملية الكاملة</h2>
-                <div class="chart-container">
-                    <canvas id="liveProcessChart" height="100"></canvas>
-                </div>
-                <div style="margin-top: 30px;">
-                    <h3 style="color: #dc2626; margin-bottom: 15px;">⚡ الحالة الحالية</h3>
-                    <div style="background: #0a0a0a; padding: 20px; border-radius: 12px; border: 1px solid #333;">
-                        <p style="color: #22c55e; font-size: 18px; margin-bottom: 10px;">✅ النظام جاهز للعمل</p>
-                        <p style="color: #a0a0a0;">📊 آخر تحديث: 2025-11-06 16:00</p>
-                        <p style="color: #a0a0a0;">🔄 المقاطع قيد المعالجة: 0</p>
-                        <p style="color: #a0a0a0;">✅ المقاطع الجاهزة للنشر: 0</p>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-label">إجمالي المشاهدات</div>
+                <div class="stat-value">0</div>
             </div>
-
-            <!-- Queue -->
-            <div id="queue" class="content-section">
-                <h2 class="section-title">📋 قائمة الانتظار</h2>
-                <div style="text-align: center; padding: 40px; color: #666;">
-                    لا توجد مقاطع في قائمة الانتظار
-                </div>
+        </div>
+        
+        <div class="section">
+            <h2>📝 جدولة المقاطع</h2>
+            <div class="form-group">
+                <label>الموضوع</label>
+                <input type="text" placeholder="أدخل الموضوع">
             </div>
-
-            <!-- OAuth Settings -->
-            <div id="oauth" class="content-section">
-                <h2 class="section-title">🔗 إعدادات OAuth الرسمية</h2>
-                <div class="oauth-section">
-                    <div class="oauth-card">
-                        <h3>
-                            <span>▶️</span>
-                            YouTube API
-                        </h3>
-                        <p style="color: #a0a0a0; margin-bottom: 15px;">
-                            ربط حسابك في YouTube عبر Google OAuth 2.0 الرسمي
-                        </p>
-                        <div class="disconnected">
-                            <span>❌</span>
-                            <span>غير متصل</span>
-                        </div>
-                        <button class="btn" style="margin-top: 15px;" onclick="connectYouTube()">
-                            🔗 ربط حساب YouTube
-                        </button>
-                    </div>
-
-                    <div class="oauth-card">
-                        <h3>
-                            <span>🎵</span>
-                            TikTok API
-                        </h3>
-                        <p style="color: #a0a0a0; margin-bottom: 15px;">
-                            ربط حسابك في TikTok عبر OAuth 2.0 الرسمي
-                        </p>
-                        <div class="disconnected">
-                            <span>❌</span>
-                            <span>غير متصل</span>
-                        </div>
-                        <button class="btn" style="margin-top: 15px;" onclick="connectTikTok()">
-                            🔗 ربط حساب TikTok
-                        </button>
-                    </div>
-
-                    <div class="oauth-card">
-                        <h3>
-                            <span>📊</span>
-                            Google Trends API
-                        </h3>
-                        <p style="color: #a0a0a0; margin-bottom: 15px;">
-                            الوصول إلى بيانات Google Trends لاقتراح الموضوعات الرائجة
-                        </p>
-                        <div class="connected">
-                            <span>✅</span>
-                            <span>نشط - متاح للاستخدام</span>
-                        </div>
-                        <button class="btn" style="margin-top: 15px;" onclick="refreshTrends()">
-                            🔄 تحديث البيانات
-                        </button>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: rgba(251, 191, 36, 0.1); border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">
-                    <h4 style="color: #fbbf24; margin-bottom: 10px;">⚠️ ملاحظة أمنية مهمة</h4>
-                    <p style="color: #a0a0a0; line-height: 1.6;">
-                        جميع عمليات OAuth تتم عبر الصفحات الرسمية لـ Google وTikTok. لن يطلب منك Worldesta.ai كلمة المرور مباشرة.
-                        يتم استخدام رموز الوصول (Access Tokens) المشفرة فقط وفقاً لمعايير OAuth 2.0 الدولية.
-                    </p>
-                </div>
+            <div class="form-group">
+                <label>المنصة</label>
+                <select>
+                    <option>YouTube Shorts + TikTok</option>
+                    <option>YouTube Shorts فقط</option>
+                    <option>TikTok فقط</option>
+                </select>
             </div>
-
-            <footer>
-                <p>🌍 Worldesta.ai - أداة النشر التلقائي المجانية 100%</p>
-                <p style="margin-top: 10px;">Built with ❤️ | 2025</p>
-            </footer>
+            <div class="form-group">
+                <label>تاريخ النشر</label>
+                <input type="datetime-local">
+            </div>
+            <button class="btn-primary">✅ جدولة الفيديو</button>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 إعدادات OAuth</h2>
+            <button class="btn-primary" style="margin-bottom: 10px;">▶️ ربط حساب YouTube</button>
+            <button class="btn-primary">🎵 ربط حساب TikTok</button>
         </div>
     </div>
-
+    
     <script>
-        // Password Protection
-        const CORRECT_PASSWORD = 'Demon56';
-        let performanceChartInstance = null;
-        let liveChartInstance = null;
-
-        function checkPassword() {
-            const input = document.getElementById('passwordInput').value;
-            const errorMsg = document.getElementById('errorMessage');
+        function checkLogin() {
+            const password = document.getElementById('pwd').value;
+            const correctPass = 'Demon56';
             
-            if (input === CORRECT_PASSWORD) {
-                document.getElementById('passwordOverlay').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'block';
-                setTimeout(initCharts, 100);
+            if (password === correctPass) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('pwd').value = '';
             } else {
-                errorMsg.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
+                document.getElementById('errMsg').style.display = 'block';
+                document.getElementById('pwd').value = '';
+                document.getElementById('pwd').focus();
+                setTimeout(() => {
+                    document.getElementById('errMsg').style.display = 'none';
+                }, 3000);
             }
         }
-
+        
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('pwd').focus();
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            document.getElementById('pwd').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    checkPassword();
+                    checkLogin();
                 }
             });
         });
-
-        // Tab Switching
-        function switchTab(tabName) {
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Initialize Charts - محسّن لتقليل استهلاك الرامات
-        function initCharts() {
-            // Destroy old charts if exist
-            if (performanceChartInstance) {
-                performanceChartInstance.destroy();
-            }
-            if (liveChartInstance) {
-                liveChartInstance.destroy();
-            }
-
-            // Performance Chart - بيانات فارغة
-            const ctx1 = document.getElementById('performanceChart');
-            if (ctx1) {
-                performanceChartInstance = new Chart(ctx1.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                                        labels: ['الأحد', 'الاثنين', 'الثلاثاء'],  // تقليل البيانات
-                        datasets: [{
-                            label: 'المشاهدات',
-                            data: [0, 0, 0],
-                            borderColor: '#dc2626',
-                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
-                            tension: 0.4,
-                            fill: false,
-                            pointRadius :2,
-                            pointHoverRadius: 5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                                                    pointRadius: 2,
-                        animation: false,
-                        plugins: {
-                            legend: {
-                                                animation: false,  // إيقاف الرسوم المتحركة لتقليل استهلاك الرامات
-                                    color: '#ffffff'
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                ticks: { color: '#a0a0a0' },
-                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
-                            },
-                            x: {
-                                ticks: { color: '#a0a0a0' },
-                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Live Process Chart - مؤشرات صغيرة
-            const ctx2 = document.getElementById('liveProcessChart');
-            if (ctx2) {
-                liveChartInstance = new Chart(ctx2.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['البحث', 'الإنشاء', 'المعالجة', 'المراجعة', 'الجدولة', 'النشر'],
-                        datasets: [{
-                            label: 'الوقت (دقائق)',
-                            data: [0, 0, 0, 0, 0, 0],
-                            backgroundColor: [
-                                'rgba(220, 38, 38, 0.8)',
-                                'rgba(220, 38, 38, 0.7)',
-                                'rgba(220, 38, 38, 0.6)',
-                                'rgba(220, 38, 38, 0.5)',
-                                'rgba(220, 38, 38, 0.4)',
-                                'rgba(220, 38, 38, 0.3)'
-                            ],
-                            borderColor: '#dc2626',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: {
-                            duration: 300
-                        },
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: '#ffffff'
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                ticks: { color: '#a0a0a0' },
-                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
-                            },
-                            x: {
-                                ticks: { 
-                                    color: '#a0a0a0',
-                                    font: { size: 11 }
-                                },
-                                grid: { color: 'rgba(51, 51, 51, 0.3)' }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Schedule Video
-        function scheduleVideo() {
-            const topic = document.getElementById('customTopic').value;
-            const platform = document.getElementById('platform').value;
-            const date = document.getElementById('publishDate').value;
-
-            if (!topic || !date) {
-                alert('⚠️ يرجى ملء جميع الحقول المطلوبة');
-                return;
-            }
-
-            alert(`✅ تم جدولة الفيديو بنجاح!\n\n📝 الموضوع: ${topic}\n📱 المنصة: ${platform}\n📅 التاريخ: ${date}`);
-            
-            document.getElementById('customTopic').value = '';
-            document.getElementById('publishDate').value = '';
-            document.getElementById('description').value = '';
-        }
-
-        // OAuth Functions - روابط حقيقية
-        function connectYouTube() {
-            const clientId = '373034855143-89bq0ktsot7jupngocsuvp30fvn6g8ml.apps.googleusercontent.com';
-            const redirectUri = encodeURIComponent(window.location.origin + '/worldesta-ai');
-            const scope = encodeURIComponent('https://www.googleapis.com/auth/youtube.upload');
-            
-            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
-            
-            
-                window.open(authUrl, '_blank');
-        }
-
-        function connectTikTok() {
-                    const clientKey = 'aw5anu7u9z6g986n';
-            const redirectUri = encodeURIComponent(window.location.origin);
-                    const scope = 'user.info.basic,video.upload,video.list';
-            
-            const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`;
-            
-            
-                window.open(authUrl, '_blank');
-        }
-
-        function refreshTrends() {
-        }
     </script>
 </body>
 </html>
