@@ -652,7 +652,7 @@
                         },
                         plugins: {
                             legend: {
-                                labels: {
+                                                animation: false,  // إيقاف الرسوم المتحركة لتقليل استهلاك الرامات
                                     color: '#ffffff'
                                 }
                             }
@@ -745,7 +745,7 @@
         // OAuth Functions - روابط حقيقية
         function connectYouTube() {
             const clientId = '373034855143-89bq0ktsot7jupngocsuvp30fvn6g8ml.apps.googleusercontent.com';
-            const redirectUri = encodeURIComponent(window.location.origin);
+            const redirectUri = encodeURIComponent(window.location.origin + '/worldesta-ai');
             const scope = encodeURIComponent('https://www.googleapis.com/auth/youtube.upload');
             
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
