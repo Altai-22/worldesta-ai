@@ -744,17 +744,14 @@
 
         // OAuth Functions - روابط حقيقية
         function connectYouTube() {
-            const clientId = 'YOUR_YOUTUBE_CLIENT_ID';
+            const clientId = '373034855143-89bq0ktsot7jupngocsuvp30fvn6g8ml.apps.googleusercontent.com';
             const redirectUri = encodeURIComponent(window.location.origin);
             const scope = encodeURIComponent('https://www.googleapis.com/auth/youtube.upload');
             
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline`;
             
-            alert('🔄 سيتم توجيهك إلى صفحة Google الرسمية لربط حسابك.\n\n⚠️ ملاحظة: يجب عليك أولاً إنشاء مشروع في Google Cloud Console والحصول على Client ID.\n\nالخطوات:\n1. اذهب إلى console.cloud.google.com\n2. أنشئ مشروع جديد\n3. فعّل YouTube Data API v3\n4. أنشئ OAuth 2
-.0 credentials\n5. ضع Client ID في الكود');
             
-            // Uncomment when you have your Client ID:
-            // window.open(authUrl, '_blank');
+                window.open(authUrl, '_blank');
         }
 
         function connectTikTok() {
@@ -764,14 +761,11 @@
             
             const authUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`;
             
-            alert('🔄 سيتم توجيهك إلى صفحة TikTok الرسمية لربط حسابك.\n\n⚠️ ملاحظة: يجب عليك أولاً التسجيل في TikTok for Developers والحصول على Client Key.\n\nالخطوات:\n1. اذهب إلى developers.tiktok.com\n2. سجّل تطبيقك\n3. احصل على Client Key\n4. ضعه في الكود');
             
-            // Uncomment when you have your Client Key:
-            // window.open(authUrl, '_blank');
+                window.open(authUrl, '_blank');
         }
 
         function refreshTrends() {
-            alert('🔄 جاري تحديث بيانات Google Trends...\n\n✅ تم التحديث بنجاح!\n\nملاحظة: لعرض البيانات الحقيقية، يجب ربط Google Trends API.');
         }
     </script>
 </body>
